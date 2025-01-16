@@ -27,13 +27,13 @@ class Pokemon(models.Model):
         blank=True,
         verbose_name="Название (японский)"
     )
-    next_evolution = models.ForeignKey(
+    previous_evolution = models.ForeignKey(
         'self',
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
-        related_name='previous_evolutions',
-        verbose_name="Следующая эволюция"
+        related_name='next_evolutions',
+        verbose_name="Из кого эволюционировал"
     )
 
     def __str__(self):

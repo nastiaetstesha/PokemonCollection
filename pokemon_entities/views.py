@@ -61,8 +61,10 @@ def show_all_pokemons(request):
 
 
 def show_pokemon(request, pokemon_id):
+    # Получаем покемона
     pokemon = get_object_or_404(Pokemon, id=pokemon_id)
 
+    # Формируем данные о покемоне
     pokemon_data = {
         'title_ru': pokemon.title,
         'img_url': request.build_absolute_uri(pokemon.image.url) if pokemon.image else DEFAULT_IMAGE_URL,
@@ -71,15 +73,27 @@ def show_pokemon(request, pokemon_id):
         'title_jp': pokemon.title_jp,
     }
 
-    if pokemon.next_evolution:
-        pokemon_data['next_evolution'] = {
-            'title_ru': pokemon.next_evolution.title,
-            'pokemon_id': pokemon.next_evolution.id,
-            'img_url': request.build_absolute_uri(pokemon.next_evolution.image.url) if pokemon.next_evolution.image else DEFAULT_IMAGE_URL,
+    # Добавляем информацию о предыдущей эволюции
+    if pokemon.previous_evolution:
+        pokemon_data['previous_evolution'] = {
+            'title_ru': pokemon.previous_evolution.title,
+            'pokemon_id': pokemon.previous_evolution.id,
+            'img_url': request.build_absolute_uri(pokemon.previous_evolution.image.url) if pokemon.previous_evolution.image else DEFAULT_IMAGE_URL,
         }
 
+    # Добавляем информацию о следующей эволюции
+    next_evolution = pokemon.next_evolutions.first()  # Используем related_name
+    if next_evolution:
+        pokemon_data['next_evolution'] = {
+            'title_ru': next_evolution.title,
+            'pokemon_id': next_evolution.id,
+            'img_url': request.build_absolute_uri(next_evolution.image.url) if next_evolution.image else DEFAULT_IMAGE_URL,
+        }
+
+    # Создаём карту
     folium_map = folium.Map(location=MOSCOW_CENTER, zoom_start=12)
 
+    # Отображаем сущности покемона
     current_time = localtime()
     pokemon_entities = PokemonEntity.objects.filter(
         pokemon=pokemon,
