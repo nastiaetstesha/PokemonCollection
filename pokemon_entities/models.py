@@ -1,4 +1,5 @@
 from django.db import models  # noqa F401
+from django.utils.timezone import now
 
 
 class Pokemon(models.Model):
@@ -24,6 +25,18 @@ class PokemonEntity(models.Model):
     )
     lat = models.FloatField(verbose_name="Широта")
     lon = models.FloatField(verbose_name="Долгота")
+    appeared_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        default=now,
+        verbose_name="Время появления"
+    )
+    disappeared_at = models.DateTimeField(
+        null=True,
+        blank=True,
+        default=now,
+        verbose_name="Время исчезновения"
+    )
 
     def __str__(self):
         return f"{self.pokemon.title} ({self.lat}, {self.lon})"
