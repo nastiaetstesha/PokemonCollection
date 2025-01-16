@@ -3,13 +3,37 @@ from django.utils.timezone import now
 
 
 class Pokemon(models.Model):
-
     title = models.CharField(max_length=200, verbose_name="Название")
     image = models.ImageField(
         upload_to='pokemon_images/',
         null=True,
         blank=True,
         verbose_name="Изображение"
+    )
+    description = models.TextField(
+        null=True,
+        blank=True,
+        verbose_name="Описание"
+    )
+    title_en = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        verbose_name="Название (английский)"
+    )
+    title_jp = models.CharField(
+        max_length=200,
+        null=True,
+        blank=True,
+        verbose_name="Название (японский)"
+    )
+    next_evolution = models.ForeignKey(
+        'self',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='previous_evolutions',
+        verbose_name="Следующая эволюция"
     )
 
     def __str__(self):
