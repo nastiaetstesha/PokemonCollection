@@ -37,6 +37,31 @@ class PokemonEntity(models.Model):
         default=now,
         verbose_name="Время исчезновения"
     )
+    level = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Уровень"
+    )
+    health = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Здоровье"
+    )
+    attack = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Атака"
+    )
+    defense = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Защита"
+    )
+    stamina = models.IntegerField(
+        null=True,
+        blank=True,
+        verbose_name="Выносливость"
+    )
 
     def __str__(self):
         return f"{self.pokemon.title} ({self.lat}, {self.lon})"
