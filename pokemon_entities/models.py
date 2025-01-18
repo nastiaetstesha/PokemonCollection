@@ -11,19 +11,19 @@ class Pokemon(models.Model):
         verbose_name="Изображение"
     )
     description = models.TextField(
-        null=True,
+        default='',
         blank=True,
         verbose_name="Описание"
     )
     title_en = models.CharField(
+        default='',
         max_length=200,
-        null=True,
         blank=True,
         verbose_name="Название (английский)"
     )
     title_jp = models.CharField(
+        default='',
         max_length=200,
-        null=True,
         blank=True,
         verbose_name="Название (японский)"
     )
@@ -52,13 +52,11 @@ class PokemonEntity(models.Model):
     appeared_at = models.DateTimeField(
         null=True,
         blank=True,
-        default=now,
         verbose_name="Время появления"
     )
     disappeared_at = models.DateTimeField(
         null=True,
         blank=True,
-        default=now,
         verbose_name="Время исчезновения"
     )
     level = models.IntegerField(
